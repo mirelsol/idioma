@@ -1,0 +1,44 @@
+{% extends "idioma/base.html" %}
+
+{% block title %}{{ pageTitle }}{% endblock %}
+
+{% block script %}
+    function autoSubmit(p_code) {
+        if (p_code==13)
+            submitData();
+    }
+{% endblock %}
+
+{% block bodystart %}
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onload="document.forms[0].user_answer.focus()" onkeyup="javascript:autoSubmit(event.keyCode)">
+{% endblock %}
+
+{% block content %}
+    <h1>Question {{ form.current_question_nb }} - Score : {{ form.nb_of_points }} ({{ form.score }} / 20)</h1>
+    {% if form.previous_question %}
+    <hr/>
+        <div class="{{ form.result_message_style }}">{{ form.result_message }}</div>
+        <div>The question was : {{ form.previous_question }}</div>
+        <div>Your answer was : {{ form.previous_user_answer }}</div>
+        <div class="correctAnswerResult">The correct answer was : {{ form.previous_answer }}</div>
+        <div>The associated comment was : {{ form.previous_answer_comment }}</div>
+    <hr/>
+    {% endif %}
+    <form name="questionForm" action="{% url 'idioma:question' %}" method="POST">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td>Question</td><td>{{ form.question }}</td>
+        </tr>
+        <tr>
+            <td>Comment</td><td>{{ form.comment }}</td>
+        </tr>
+        <tr>
+            <td>Translation</td><td><input autocomplete="off" type="text" name="user_answer" id="id_userAnswer" value=""/></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Answer" /></td>
+        </tr>
+    </table>
+    </form>
+{% endblock %}

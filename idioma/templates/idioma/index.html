@@ -1,0 +1,18 @@
+{% extends "idioma/base.html" %}
+
+{% block title %}{{ pageTitle }}{% endblock %}
+
+{% block content %}
+    <p>Welcome to Idioma!</p>
+    <form name="initPlayForm" action="." method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <table>
+      <tr>
+          <td><input type="submit" value="Start" /></td>
+      </tr>
+    </table>
+    </form>
+{% endblock %}

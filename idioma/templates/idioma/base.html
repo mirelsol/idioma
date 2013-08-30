@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load staticfiles %}
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'idioma/style.css' %}"/>
+    <script language="javascript">{% block script %}{% endblock %}</script>
+    <title>{% block title %}Idioma{% endblock %}</title>
+</head>
+
+{% block bodystart %}<body>{% endblock %}
+<div id="container">
+    <div id="top">
+        <center><h1>&raquo; {{ page_title }} &laquo;</h1></center>
+    </div>
+
+    <div id="leftBar">
+    {% block leftBar %}
+      <ul>
+          <li><a href="{% url 'idioma:index' %}">Home</a></li>
+          <li><a href="/admin/idioma">Django Admin</a></li>
+      </ul>
+    {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div id="bottom">
+        <hr/><center>Copyright 2013 Idioma project - GNU/GPL v3 license</center>
+    </div>
+</div>
+</body>
+</html>

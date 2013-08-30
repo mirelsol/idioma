@@ -1,0 +1,100 @@
+/*
+# Copyright 2008 Domogik project
+
+# This file is part of Domogik.
+# Domogik is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# Domogik is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with Domogik.  If not, see <http://www.gnu.org/licenses/>.
+
+# Author : Marc Schneider <marc@domogik.org>
+
+# $LastChangedBy: mschneider $
+# $LastChangedDate: 2008-10-21 21:43:30 +0200 (mar 21 oct 2008) $
+# $LastChangedRevision: 174 $
+*/
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: white;
+}
+
+#container {
+	margin: auto;
+	width: 860px;
+	background: #333333;
+}
+
+#top {
+	background: #DDDDDD;
+	color: #AF030A;
+}
+
+#leftBar {
+	font-size: 14px;
+	float: left;
+	width: 200px;
+	background: #333333;
+}
+
+#leftBar a {
+	color: #00D2B1;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#leftBar a:hover {
+	color: #AF030A;
+	text-decoration: none;
+}
+
+#leftBar li {
+	padding: 5px;
+}
+
+#content {
+	font-size: 14px;
+	float:left;
+	width: 460px;
+	background-color: #333333;
+}
+
+#content .isCorrectAnswer {
+	color: green;
+	font-weight: bold;
+}
+
+#content .isWrongAnswer {
+	color: red;
+	font-weight: bold;
+}
+
+#content .correctAnswerResult {
+	color: green;
+	font-weight: bold;
+}
+
+#content a {
+	color: #668cc7;
+}
+
+#rightBar {
+	float: right;
+	width: 200px;
+	background: #333333;
+}
+
+#bottom {
+	clear: both;
+	background: #DDDDDD;
+	color: black;
+}
