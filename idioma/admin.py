@@ -6,7 +6,7 @@ from idioma.models import ExpressionIta, ExpressionGer
 
 
 class ExpressionAdmin(admin.ModelAdmin):
-    list_display = ('french_expression', 'foreign_expression', 'tatoeba_id')
+    list_display = ('french_expression', 'foreign_expression', 'tatoeba_id', 'added_on', 'updated_on')
     search_fields = ['french_expression', 'foreign_expression']
 
 
