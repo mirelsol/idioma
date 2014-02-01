@@ -24,3 +24,8 @@ class ExpressionGer(Expression):
     class Meta:
         verbose_name = "Expression allemande"
         verbose_name_plural = "Expressions allemandes"
+
+class ExpressionEng(Expression):
+    class Meta:
+        verbose_name = "Expression anglaise"
+        verbose_name_plural = "Expressions anglaises"

@@ -2,7 +2,7 @@
 #-*- encoding:utf-8 *-*
 
 from django.contrib import admin
-from idioma.models import ExpressionIta, ExpressionGer
+from idioma.models import ExpressionIta, ExpressionGer, ExpressionEng
 
 
 class ExpressionAdmin(admin.ModelAdmin):
@@ -12,3 +12,4 @@ class ExpressionAdmin(admin.ModelAdmin):
 
 admin.site.register(ExpressionIta, ExpressionAdmin)
 admin.site.register(ExpressionGer, ExpressionAdmin)
+admin.site.register(ExpressionEng, ExpressionAdmin)
