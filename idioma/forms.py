@@ -17,6 +17,7 @@ class QuestionForm(forms.Form):
     comment = ""
     current_question_nb = 0
     nb_of_points = 0
+    nb_of_expr_left = 0
     score = ""
     result_message = ""
     result_message_style = ""

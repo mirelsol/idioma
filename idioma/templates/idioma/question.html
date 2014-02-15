@@ -15,6 +15,7 @@
 
 {% block content %}
     <h1>Question {{ form.current_question_nb }} - Score : {{ form.nb_of_points }} ({{ form.score }} / 20)</h1>
+    <h2>Nb of expressions : {{ form.nb_of_expr_left }}</h2>
     {% if form.previous_question %}
     <hr/>
         <div class="{{ form.result_message_style }}">{{ form.result_message }}</div>

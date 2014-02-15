@@ -4,19 +4,25 @@
 import random
 
 from django.shortcuts import render
-from idioma.models import ExpressionIta
+from idioma.models import ExpressionIta, ExpressionGer, ExpressionEng
 from idioma.forms import InitPlayForm
 from idioma.forms import QuestionForm
+
+_expr_list = []
+_cur_expr_index = 0
 
 def index(request):
     """
     Main view
     """
+    global _expr_list
     response_page = "idioma/index.html"
     page_title = "Idioma Home"
     if request.method == 'POST':
         init_play_form = InitPlayForm(request.POST)
         if init_play_form.is_valid():
+            _init_question_list(request.session['language'])
+
             request.session['language'] = init_play_form.cleaned_data['language']
             request.session['current_question_nb'] = 1
             request.session['nb_of_points'] = 0
@@ -43,6 +49,9 @@ def question(request):
     """
     Ask / evaluate a question
     """
+    if len(_expr_list) == 0:
+        # No more questions in the list (=> only correct answers!) => start from the beginning
+        _init_question_list(request.session['language'])
     page_title = "Question"
     form = QuestionForm(request.POST)
     if form.is_valid():
@@ -80,6 +89,7 @@ def __evaluate_answer(answer, form, request):
         request.session['nb_of_points'] = request.session['nb_of_points'] + 1
         form.result_message = "Correct answer !"
         form.result_message_style = "isCorrectAnswer"
+        del _expr_list[_cur_expr_index]
     else:
         form.result_message = "Wrong answer !"
         form.result_message_style = "isWrongAnswer"
@@ -96,9 +106,10 @@ def __ask_question(question_form, request):
     @param question_form : a form reprensenting a question
     @param request : HTTP request
     """
-    expr = __get_random_question(request.session['language'])
+    expr = __get_random_question()
     question_form.question = expr.french_expression
     question_form.comment = expr.comment_french
+    question_form.nb_of_expr_left = len(_expr_list)
     # TODO : this doesn't work
     #questionForm.userAnswer.clean("")
     request.session['current_question'] = question_form.question
@@ -106,19 +117,20 @@ def __ask_question(question_form, request):
     request.session['current_answer'] = expr.foreign_expression
     request.session['current_answer_comment'] = expr.comment_foreign
 
-def __get_random_question(language_filter):
+def __get_random_question():
     """
     Choose a random question
-    @param language_filter : the language
     """
+    _cur_expr_index = random.randint(0, len(_expr_list) - 1)
+    return _expr_list[_cur_expr_index]
+
+def _init_question_list(language_filter):
+    global _expr_list
     if language_filter == 'IT':
-        expr_list = ExpressionIta.objects.all()
+        _expr_list = list(ExpressionIta.objects.all())
     elif language_filter == 'DE':
-        expr_list = ExpressionGer.objects.all()
+        _expr_list = list(ExpressionGer.objects.all())
     elif language_filter == 'EN':
-        expr_list = ExpressionEng.objects.all()
+        _expr_list = list(ExpressionEng.objects.all())
     else:
         raise Exception("'%s' language currently NOT supported" % language_filter)
-    # TODO : check that exprSet is not empty
-    expr_nb = random.randint(0, expr_list.count() - 1)
-    return expr_list[expr_nb]
