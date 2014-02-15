@@ -115,6 +115,8 @@ def __get_random_question(language_filter):
         expr_list = ExpressionIta.objects.all()
     elif language_filter == 'DE':
         expr_list = ExpressionGer.objects.all()
+    elif language_filter == 'EN':
+        expr_list = ExpressionEng.objects.all()
     else:
         raise Exception("'%s' language currently NOT supported" % language_filter)
     # TODO : check that exprSet is not empty
