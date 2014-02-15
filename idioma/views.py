@@ -47,11 +47,16 @@ def question(request):
     form = QuestionForm(request.POST)
     if form.is_valid():
         __evaluate_answer(form.cleaned_data['user_answer'], form, request)
-        form.previous_question = request.session['current_question']
         form.previous_user_answer = form.cleaned_data['user_answer']
-        form.previous_answer = request.session['current_answer']
-        form.previous_answer_comment = request.session['current_answer_comment']
-        __ask_question(form, request)
+        
+    else:
+        __evaluate_answer('', form, request)
+        form.previous_user_answer = ''        
+
+    form.previous_question = request.session['current_question']
+    form.previous_answer = request.session['current_answer']
+    form.previous_answer_comment = request.session['current_answer_comment']
+    __ask_question(form, request)
 
     return render(
         request,
@@ -71,7 +76,7 @@ def __evaluate_answer(answer, form, request):
     """
     # An answer can have multiple items separated by ' | '. This means that all items are right
     right_answer_list = request.session['current_answer'].lower().split(' | ')
-    if answer is not None and answer.lower() in right_answer_list:
+    if answer is not None and answer != '' and answer.lower() in right_answer_list:
         request.session['nb_of_points'] = request.session['nb_of_points'] + 1
         form.result_message = "Correct answer !"
         form.result_message_style = "isCorrectAnswer"
