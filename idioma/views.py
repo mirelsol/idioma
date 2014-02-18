@@ -121,6 +121,7 @@ def __get_random_question():
     """
     Choose a random question
     """
+    global _cur_expr_index
     _cur_expr_index = random.randint(0, len(_expr_list) - 1)
     return _expr_list[_cur_expr_index]
 
