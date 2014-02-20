@@ -6,7 +6,7 @@ from django.db import models
 class Expression(models.Model):
     added_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
-    foreign_expression = models.CharField(max_length=255, help_text="Use | to separate multiple expressions")
+    foreign_expression = models.CharField(max_length=255, help_text="Use | to separate multiple expressions", unique=True)
     french_expression = models.CharField(max_length=255)
     comment_foreign = models.TextField(max_length=255, null=True, blank=True)
     comment_french = models.TextField(max_length=255, null=True, blank=True)
