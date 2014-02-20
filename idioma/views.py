@@ -29,7 +29,7 @@ def index(request):
             form = QuestionForm()
             form.current_question_nb = request.session['current_question_nb']
             form.nb_of_points = 0
-            __ask_question(form, request)
+            _ask_question(form, request)
             response_page = "idioma/question.html"
         else:
             form = init_play_form
@@ -55,17 +55,17 @@ def question(request):
     page_title = "Question"
     form = QuestionForm(request.POST)
     if form.is_valid():
-        __evaluate_answer(form.cleaned_data['user_answer'], form, request)
+        _evaluate_answer(form.cleaned_data['user_answer'], form, request)
         form.previous_user_answer = form.cleaned_data['user_answer']
         
     else:
-        __evaluate_answer('', form, request)
+        _evaluate_answer('', form, request)
         form.previous_user_answer = ''        
 
     form.previous_question = request.session['current_question']
     form.previous_answer = request.session['current_answer']
     form.previous_answer_comment = request.session['current_answer_comment']
-    __ask_question(form, request)
+    _ask_question(form, request)
 
     return render(
         request,
@@ -76,7 +76,7 @@ def question(request):
         }
     )
 
-def __evaluate_answer(answer, form, request):
+def _evaluate_answer(answer, form, request):
     """
     Evaluate the user answer
     @param answer : answer given by the user
@@ -100,13 +100,13 @@ def __evaluate_answer(answer, form, request):
     form.nb_of_points = request.session['nb_of_points']
     form.score = score # + " / 20"
 
-def __ask_question(question_form, request):
+def _ask_question(question_form, request):
     """
     Ask a question to the user
     @param question_form : a form reprensenting a question
     @param request : HTTP request
     """
-    expr = __get_random_question()
+    expr = _get_random_question()
     question_form.question = expr.french_expression
     question_form.comment = expr.comment_french
     question_form.nb_of_expr_left = len(_expr_list)
@@ -117,7 +117,7 @@ def __ask_question(question_form, request):
     request.session['current_answer'] = expr.foreign_expression
     request.session['current_answer_comment'] = expr.comment_foreign
 
-def __get_random_question():
+def _get_random_question():
     """
     Choose a random question
     """
