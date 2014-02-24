@@ -10,6 +10,7 @@ from idioma.forms import QuestionForm
 
 _expr_list = []
 _cur_expr_index = 0
+_wrong_answered_list = []
 
 def index(request):
     """
@@ -21,6 +22,7 @@ def index(request):
     if request.method == 'POST':
         init_play_form = InitPlayForm(request.POST)
         if init_play_form.is_valid():
+            _wrong_answered_list = []
             _init_question_list(request.session['language'])
 
             request.session['language'] = init_play_form.cleaned_data['language']
@@ -44,6 +46,17 @@ def index(request):
           'form': form,
         }
     )
+
+def terminate(request):
+    page_title = "The end!"
+    return render(
+        request,
+        'idioma/terminate.html',
+        {
+          'expr_list': _wrong_answered_list,
+          'page_title': page_title,
+        }
+    )    
 
 def question(request):
     """
@@ -93,6 +106,7 @@ def _evaluate_answer(answer, form, request):
     else:
         form.result_message = "Wrong answer !"
         form.result_message_style = "isWrongAnswer"
+        _wrong_answered_list.append(" | ".join(right_answer_list))
 
     score = (request.session['nb_of_points'] * 20) / (request.session['current_question_nb'])
     request.session['current_question_nb'] = request.session['current_question_nb'] + 1

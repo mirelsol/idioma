@@ -1,0 +1,18 @@
+{% extends "idioma/base.html" %}
+
+{% block title %}{{ pageTitle }}{% endblock %}
+
+{% block bodystart %}
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+{% endblock %}
+
+{% block content %}
+    <h1>{{ pageTitle }}</h1>
+    <h2>List of questions you've not answered correctly:</h2>
+    <hr/>
+    <ul>
+    {% for expr in expr_list %}
+        <li>{{ expr }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
