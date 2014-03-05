@@ -2,7 +2,7 @@
 #-*- encoding:utf-8 *-*
 
 from django.contrib import admin
-from idioma.models import ExpressionIta, ExpressionGer, ExpressionEng, ExpressionGen, Language, Topic
+from idioma.models import ExpressionGen, Language, Topic
 
 
 class ExpressionAdmin(admin.ModelAdmin):
@@ -14,9 +14,6 @@ class ExpressionGenAdmin(admin.ModelAdmin):
     list_filter = ('from_language', 'to_language')
     search_fields = ['from_expr', 'to_expr']
 
-admin.site.register(ExpressionIta, ExpressionAdmin)
-admin.site.register(ExpressionGer, ExpressionAdmin)
-admin.site.register(ExpressionEng, ExpressionAdmin)
 
 admin.site.register(ExpressionGen, ExpressionGenAdmin)
 admin.site.register(Language)

@@ -4,7 +4,7 @@
 import random
 
 from django.shortcuts import render
-from idioma.models import ExpressionIta, ExpressionGer, ExpressionEng
+from idioma.models import ExpressionGen, Language
 from idioma.forms import InitPlayForm
 from idioma.forms import QuestionForm
 
@@ -23,9 +23,14 @@ def index(request):
         init_play_form = InitPlayForm(request.POST)
         if init_play_form.is_valid():
             _wrong_answered_list = []
-            _init_question_list(request.session['language'])
+            question_lang_id = init_play_form.cleaned_data['question_language']
+            response_lang_id = init_play_form.cleaned_data['response_language']
+            
+            _init_question_list(question_lang_id, response_lang_id)
 
-            request.session['language'] = init_play_form.cleaned_data['language']
+            request.session['question_language'] = Language.objects.get(id=question_lang_id).label
+            request.session['response_language'] = Language.objects.get(id=response_lang_id).label
+            
             request.session['current_question_nb'] = 1
             request.session['nb_of_points'] = 0
             form = QuestionForm()
@@ -121,31 +126,28 @@ def _ask_question(question_form, request):
     @param request : HTTP request
     """
     expr = _get_random_question()
-    question_form.question = expr.french_expression
-    question_form.comment = expr.comment_french
+    question_form.question = expr.to_expr
+    question_form.comment = expr.to_comment
     question_form.nb_of_expr_left = len(_expr_list)
     # TODO : this doesn't work
     #questionForm.userAnswer.clean("")
     request.session['current_question'] = question_form.question
     # Get answer
-    request.session['current_answer'] = expr.foreign_expression
-    request.session['current_answer_comment'] = expr.comment_foreign
+    request.session['current_answer'] = expr.from_expr
+    request.session['current_answer_comment'] = expr.from_comment
 
 def _get_random_question():
     """
     Choose a random question
     """
     global _cur_expr_index
+    print(len(_expr_list))
+    #print(_cur_expr_index)
+
     _cur_expr_index = random.randint(0, len(_expr_list) - 1)
     return _expr_list[_cur_expr_index]
 
-def _init_question_list(language_filter):
+def _init_question_list(question_lang_id, response_lang_id):
     global _expr_list
-    if language_filter == 'IT':
-        _expr_list = list(ExpressionIta.objects.all())
-    elif language_filter == 'DE':
-        _expr_list = list(ExpressionGer.objects.all())
-    elif language_filter == 'EN':
-        _expr_list = list(ExpressionEng.objects.all())
-    else:
-        raise Exception("'%s' language currently NOT supported" % language_filter)
+    print(question_lang_id, response_lang_id)
+    _expr_list = list(ExpressionGen.objects.filter(from_language_id=response_lang_id, to_language_id=question_lang_id))

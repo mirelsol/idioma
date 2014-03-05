@@ -2,14 +2,21 @@
 #-*- encoding:utf-8 *-*
 
 from django import forms
+from idioma.models import Language, Topic
+
+languages = Language.objects.all()
 
 class InitPlayForm(forms.Form):
-    LANGUAGE_CHOICES = (
-        ('IT', 'IT'),
-        ('EN', 'EN'),
-        ('DE', 'DE'),
-    )
-    language = forms.ChoiceField(label='Language',choices=LANGUAGE_CHOICES)
+    question_language = forms.ChoiceField(label='Question language', choices=((l.id, l.label) for l in languages))
+    response_language = forms.ChoiceField(label='Response language', choices=((l.id, l.label) for l in languages))
+
+    def clean(self):
+        cleaned_data = super(InitPlayForm, self).clean()
+        lang_from = cleaned_data['question_language']
+        lang_to = cleaned_data['response_language']
+        if lang_from == lang_to:
+            raise forms.ValidationError("Question and response languages can't be identical")
+        return cleaned_data
 
 
 class QuestionForm(forms.Form):
