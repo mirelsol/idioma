@@ -4,6 +4,8 @@
 import random
 
 from django.shortcuts import render
+from django.db.models import Q
+
 from idioma.models import ExpressionGen, Language
 from idioma.forms import InitPlayForm
 from idioma.forms import QuestionForm
@@ -25,8 +27,10 @@ def index(request):
             _wrong_answered_list = []
             question_lang_id = init_play_form.cleaned_data['question_language']
             response_lang_id = init_play_form.cleaned_data['response_language']
+            topic_id = init_play_form.cleaned_data['topic']
+            print(topic_id)
             
-            _init_question_list(question_lang_id, response_lang_id)
+            _init_question_list(question_lang_id, response_lang_id, topic_id)
 
             request.session['question_language'] = Language.objects.get(id=question_lang_id).label
             request.session['response_language'] = Language.objects.get(id=response_lang_id).label
@@ -147,7 +151,12 @@ def _get_random_question():
     _cur_expr_index = random.randint(0, len(_expr_list) - 1)
     return _expr_list[_cur_expr_index]
 
-def _init_question_list(question_lang_id, response_lang_id):
+def _init_question_list(question_lang_id, response_lang_id, c_topic_id):
     global _expr_list
-    print(question_lang_id, response_lang_id)
-    _expr_list = list(ExpressionGen.objects.filter(from_language_id=response_lang_id, to_language_id=question_lang_id))
+    expr_gen_qs = ExpressionGen.objects.filter(
+                        Q(from_language_id=response_lang_id, to_language_id=question_lang_id) |
+                        Q(from_language_id=question_lang_id, to_language_id=response_lang_id)
+                )
+    if c_topic_id != '-1':
+        expr_gen_qs = expr_gen_qs.filter(topic_id = c_topic_id)
+    _expr_list = list(expr_gen_qs)

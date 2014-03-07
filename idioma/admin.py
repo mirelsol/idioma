@@ -5,13 +5,9 @@ from django.contrib import admin
 from idioma.models import ExpressionGen, Language, Topic
 
 
-class ExpressionAdmin(admin.ModelAdmin):
-    list_display = ('french_expression', 'foreign_expression', 'tatoeba_id', 'added_on', 'updated_on')
-    search_fields = ['french_expression', 'foreign_expression']
-
 class ExpressionGenAdmin(admin.ModelAdmin):
-    list_display = ('from_expr', 'to_expr', 'tatoeba_id', 'added_on', 'updated_on')
-    list_filter = ('from_language', 'to_language')
+    list_display = ('from_expr', 'to_expr', 'topic', 'tatoeba_id', 'added_on', 'updated_on')
+    list_filter = ('from_language', 'to_language', 'topic')
     search_fields = ['from_expr', 'to_expr']
 
 
