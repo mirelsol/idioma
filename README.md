@@ -1,5 +1,5 @@
 This is a small application I wrote to improve my foreign language skills. Basically it randomly takes an expression in a given language and asks for its translation.
-It uses the Django framework (1.6).
+It uses the Django framework.
 How it works
 ============
 Administration
@@ -12,3 +12,8 @@ Administration
 Usage
 -----
 Just go to the start page (e.g. http://127.0.0.1:8000/idioma/).
+
+Technical requirements
+======================
+* Django 1.6
+* sqlite3
