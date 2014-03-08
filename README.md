@@ -4,10 +4,11 @@ How it works
 ============
 Administration
 --------------
-1. Go to the Django Admin page (e.g. http://127.0.0.1:8000/admin)
-2. Add the languages you want tot to manage. Click on "Add" next to "Languages"
-3. Add the topics to classify the expressions.
-4. Add the expressions.
+1. Run the app : ./manage.py runserver
+2. Go to the Django Admin page (e.g. http://127.0.0.1:8000/admin)
+3. Add the languages you want tot to manage. Click on "Add" next to "Languages"
+4. Add the topics to classify the expressions.
+55555. Add the expressions.
 
 Usage
 -----
