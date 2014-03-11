@@ -28,7 +28,6 @@ def index(request):
             question_lang_id = init_play_form.cleaned_data['question_language']
             response_lang_id = init_play_form.cleaned_data['response_language']
             topic_id = init_play_form.cleaned_data['topic']
-            print(topic_id)
             
             _init_question_list(question_lang_id, response_lang_id, topic_id)
 
@@ -133,8 +132,6 @@ def _ask_question(question_form, request):
     question_form.question = expr.to_expr
     question_form.comment = expr.to_comment
     question_form.nb_of_expr_left = len(_expr_list)
-    # TODO : this doesn't work
-    #questionForm.userAnswer.clean("")
     request.session['current_question'] = question_form.question
     # Get answer
     request.session['current_answer'] = expr.from_expr
@@ -145,9 +142,6 @@ def _get_random_question():
     Choose a random question
     """
     global _cur_expr_index
-    print(len(_expr_list))
-    #print(_cur_expr_index)
-
     _cur_expr_index = random.randint(0, len(_expr_list) - 1)
     return _expr_list[_cur_expr_index]
 
