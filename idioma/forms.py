@@ -38,6 +38,5 @@ class QuestionForm(forms.Form):
     previous_answer = ""
     previous_user_answer = ""
     previous_answer_comment = ""
-    #userAnswer = forms.CharField(label='Answer', initial="", attrs={'autocomplete':'off'})
     user_answer = forms.CharField(initial="", widget=forms.TextInput(attrs={'autocomplete':'off'}))
 
