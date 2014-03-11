@@ -17,6 +17,9 @@ class Topic(models.Model):
     def __unicode__(self):
         return "%s" % (self.label)
 
+    class Meta:
+        ordering = ['label']
+
 
 class ExpressionGen(models.Model):
     added_on = models.DateField(auto_now_add=True)
