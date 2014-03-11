@@ -29,6 +29,9 @@
     {% csrf_token %}
     <table>
         <tr>
+            <td>Topic</td><td>{{ request.session.topic }}</td>
+        </tr>
+        <tr>
             <td>Question</td><td>{{ form.question }}</td>
         </tr>
         <tr>

@@ -6,7 +6,7 @@ import random
 from django.shortcuts import render
 from django.db.models import Q
 
-from idioma.models import ExpressionGen, Language
+from idioma.models import ExpressionGen, Language, Topic
 from idioma.forms import InitPlayForm
 from idioma.forms import QuestionForm
 
@@ -28,11 +28,15 @@ def index(request):
             question_lang_id = init_play_form.cleaned_data['question_language']
             response_lang_id = init_play_form.cleaned_data['response_language']
             topic_id = init_play_form.cleaned_data['topic']
+            request.session['topic'] = u'Everything'
+            if topic_id != '-1':
+                request.session['topic'] = Topic.objects.get(id=topic_id).label
             
             _init_question_list(question_lang_id, response_lang_id, topic_id)
 
             request.session['question_language'] = Language.objects.get(id=question_lang_id).label
             request.session['response_language'] = Language.objects.get(id=response_lang_id).label
+
             
             request.session['current_question_nb'] = 1
             request.session['nb_of_points'] = 0
@@ -45,7 +49,7 @@ def index(request):
             form = init_play_form
     else:
         form = InitPlayForm()
-
+    request.session['plop'] = 'plop'
     return render(
         request,
         response_page,

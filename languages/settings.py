@@ -1,4 +1,6 @@
-# Django settings for mirelapps project.
+# Django settings 'languages' project.
+
+import django.conf.global_settings as DEFAULT_SETTINGS
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -154,3 +156,8 @@ LOGGING = {
         },
     }
 }
+
+# To be able to access to session variables in the templates
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request',
+)
