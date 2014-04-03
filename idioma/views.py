@@ -74,15 +74,14 @@ def question(request):
     """
     Ask / evaluate a question
     """
-    if len(_expr_list) == 0:
-        # No more questions in the list (=> only correct answers!) => start from the beginning
-        _init_question_list(request.session['language'])
     page_title = "Question"
     form = QuestionForm(request.POST)
     if form.is_valid():
         _evaluate_answer(form.cleaned_data['user_answer'], form, request)
         form.previous_user_answer = form.cleaned_data['user_answer']
-        
+        if len(_expr_list) == 0:
+            # No more questions in the list (=> only correct answers!) => start from the beginning
+            return terminate(request)
     else:
         _evaluate_answer('', form, request)
         form.previous_user_answer = ''        
