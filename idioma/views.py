@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #-*- encoding:utf-8 *-*
 
+from __future__ import division
 import random
 
 from django.shortcuts import render
@@ -9,6 +10,7 @@ from django.db.models import Q
 from idioma.models import ExpressionGen, Language, Topic
 from idioma.forms import InitPlayForm
 from idioma.forms import QuestionForm
+
 
 _expr_list = []
 _cur_expr_index = 0
@@ -119,7 +121,7 @@ def _evaluate_answer(answer, form, request):
         form.result_message_style = "isWrongAnswer"
         _wrong_answered_list.append(" | ".join(right_answer_list))
 
-    score = (request.session['nb_of_points'] * 20) / (request.session['current_question_nb'])
+    score = round((request.session['nb_of_points'] * 20) / (request.session['current_question_nb']), 2)
     request.session['current_question_nb'] = request.session['current_question_nb'] + 1
     form.current_question_nb = request.session['current_question_nb']
     form.nb_of_points = request.session['nb_of_points']
