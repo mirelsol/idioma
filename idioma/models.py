@@ -24,8 +24,8 @@ class Topic(models.Model):
 class ExpressionGen(models.Model):
     added_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
-    
-    topic = models.ForeignKey(Topic, null=True, blank=True)
+
+    topics = models.ManyToManyField(Topic, related_name='topics')
     
     from_language = models.ForeignKey(Language, related_name='from_language')
     from_expr = models.CharField(max_length=255, help_text="Use | to separate multiple expressions")
@@ -36,6 +36,9 @@ class ExpressionGen(models.Model):
     to_comment = models.TextField(max_length=255, null=True, blank=True)
     
     tatoeba_id = models.IntegerField(null=True, blank=True)
+
+    def get_topics_labels(self):
+        return [e['label'] for e in self.topics.values()]
 
     def __unicode__(self):
         return "%s [%s]" % (self.from_expr, self.to_expr)

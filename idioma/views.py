@@ -157,5 +157,5 @@ def _init_question_list(question_lang_id, response_lang_id, c_topic_id):
                         Q(from_language_id=question_lang_id, to_language_id=response_lang_id)
                 )
     if c_topic_id != '-1':
-        expr_gen_qs = expr_gen_qs.filter(topic_id = c_topic_id)
+        expr_gen_qs = expr_gen_qs.filter(topics__id=c_topic_id)
     _expr_list = list(expr_gen_qs)
