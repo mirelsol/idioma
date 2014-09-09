@@ -40,7 +40,7 @@ class ExpressionGen(models.Model):
     def get_topics_labels(self):
         return [e['label'] for e in self.topics.values()]
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s [%s]" % (self.from_expr, self.to_expr)
 
     class Meta:
