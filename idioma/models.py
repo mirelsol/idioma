@@ -7,15 +7,15 @@ from django.db import models
 class Language(models.Model):
     label = models.CharField(max_length=15, unique=True)
 
-    def __unicode__(self):
-        return "%s" % (self.label)
+    def __str__(self):
+        return self.label
 
 
 class Topic(models.Model):
     label = models.CharField(max_length=30, unique=True)
 
-    def __unicode__(self):
-        return "%s" % (self.label)
+    def __str__(self):
+        return self.label
 
     class Meta:
         ordering = ['label']
